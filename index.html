@@ -251,7 +251,7 @@
     <svg class="spark" viewBox="0 0 24 24" width="32" height="32"><use href="#i-spark"/></svg>
     <div>
       <span class="tag">Book this week</span>
-      <p><strong>Lowe's Haunted House build (Sat Sep 12)</strong> fits <strong>both girls</strong> (ages 4–11) and spots fill fast — <a href="https://www.lowes.com/events" target="_blank" rel="noopener">register free</a>. And the girls are <strong>off school Mon Sep 7 &amp; Mon Sep 21</strong> — the yellow calendar days — good days for a big outing.</p>
+      <p><strong>Home Depot School Bus Organizer is THIS Saturday (Sep 5)</strong> — <a href="https://www.homedepot.com/workshops/" target="_blank" rel="noopener">reserve a kit now</a>. <strong>Lowe's Haunted House (Sat Sep 12, both girls)</strong> registration is open and fills fast — <a href="https://www.lowes.com/events" target="_blank" rel="noopener">register free</a>. Home Depot's Oct 3 Witch Candy Box opens for registration <strong>Sep 5</strong>. And the girls are <strong>off school Mon Sep 7 &amp; Mon Sep 21</strong> — the yellow calendar days — good days for a big outing.</p>
     </div>
   </div>
 
@@ -371,6 +371,14 @@ const EVENTS = [
     loc:"Apple Shadyside (~5 min)", fit:"waverly", cat:"tablet", color:"c-blue",
     reg:{ label:"Book a free spot", url:"https://www.apple.com/today/calendar/shadyside/" },
     note:{ kind:"good", text:"Clean fit — evening, nothing else scheduled." } },
+  { d:"2026-09-13", title:"Apple Kids: Direct Your Own Friendship Film on iPad", time:"2:30–3:30 PM",
+    loc:"Apple Shadyside (~5 min)", fit:"waverly", cat:"tablet", color:"c-blue",
+    reg:{ label:"Book a free spot", url:"https://www.apple.com/today/calendar/shadyside/" },
+    note:{ kind:"good", text:"Fits right after 1 PM chess wraps — Ross Park runs the same session at 2:45 as a backup." } },
+  { d:"2026-09-19", title:"Family Fest at Arts Landing — free downtown play day", time:"10 AM–2 PM",
+    loc:"Arts Landing, Downtown", fit:"both", ages:"Ages 1–13 · drop-in", cat:"flag", color:"c-pink",
+    reg:{ label:"Free — no registration", url:"https://culturaldistrict.org/event/31856-2026/family-fest" },
+    note:{ kind:"good", text:"Face painting, crafts, storytimes, lawn games. Come after Tatum's ballet (11:30) — or pick Hay Day at Hartwood, same day." } },
   { d:"2026-09-13", title:"Pittsburgh Irish Festival — family day", time:"Sep 11–13 · see times",
     loc:"Carrie Blast Furnaces", fit:"both", ages:"All ages", cat:"flag", color:"c-deep", paid:true,
     reg:{ label:"Tickets & times", url:"https://www.pghirishfest.org/" },
@@ -398,19 +406,19 @@ const EVENTS = [
   /* ---- October ---- */
   { d:"2026-10-03", title:"Home Depot Workshop: Witch Candy Box", time:"9 AM–12 PM",
     loc:"Home Depot (East Liberty)", fit:"both", ages:"Ages 5–12 · Tatum with a hand", cat:"hammer", color:"c-orange",
-    reg:{ label:"Registration opens ~Sep 1", url:"https://www.homedepot.com/workshops/" },
+    reg:{ label:"Registration opens Sep 5", url:"https://www.homedepot.com/workshops/" },
     note:{ kind:"good", text:"Tennis is done by October; if Goldfish swim has started in the 9–10 slot, use the wide window around it. Ballet at 10:45 still applies." } },
-  { d:"2026-10-17", title:"Lowe's Workshop: Firefighting Plane", time:"10 AM–1 PM",
+  { d:"2026-10-10", title:"Lowe's Workshop: Firefighting Plane", time:"10 AM–1 PM",
     loc:"Lowe's (nearest store)", fit:"both", ages:"Ages 4–11 · fits BOTH girls", cat:"house", color:"c-red",
-    reg:{ label:"Register when it opens (~2 wks ahead)", url:"https://www.lowes.com/events", hot:true },
-    note:{ kind:"good", text:"Both girls again — come after Tatum's 10:45 ballet; window runs to 1." } },
+    reg:{ label:"Registration opens Sep 12", url:"https://www.lowes.com/events", hot:true },
+    note:{ kind:"good", text:"Date corrected — it's Oct 10, not Oct 17. Both girls again; come after Tatum's 10:45 ballet, window runs to 1." } },
   { d:"2026-10-17", title:"ZooBoo — daytime trick-or-treat at the Zoo", time:"10 AM–3 PM",
     loc:"Pittsburgh Zoo & Aquarium", fit:"both", ages:"All ages · costumes welcome", cat:"flag", color:"c-orange", paid:true,
-    reg:{ label:"Included with admission — confirm exact days", url:"https://www.pittsburghzoo.org/event/zooboo/" },
-    note:{ kind:"warn", text:"Runs the last two weekends of October — the zoo hasn't posted exact 2026 days yet, so double-check before going." } },
+    reg:{ label:"Included with admission", url:"https://www.pittsburghzoo.org/event/zooboo/" },
+    note:{ kind:"good", text:"Dates confirmed: Oct 16–17 and 23–24. Saturdays work best — come after ballet; the Fridays are school days." } },
   { d:"2026-10-24", title:"ZooBoo — weekend two", time:"10 AM–3 PM",
     loc:"Pittsburgh Zoo & Aquarium", fit:"both", ages:"All ages · costumes welcome", cat:"flag", color:"c-orange", paid:true,
-    reg:{ label:"Included with admission — confirm exact days", url:"https://www.pittsburghzoo.org/event/zooboo/" },
+    reg:{ label:"Included with admission — dates confirmed", url:"https://www.pittsburghzoo.org/event/zooboo/" },
     note:{ kind:"good", text:"Trick-or-treat stations, costume parade and dance. Wear the Halloween costumes early!" } },
   /* ---- November ---- */
   { d:"2026-11-07", title:"Home Depot Workshop: Dump Truck", time:"9 AM–12 PM",
@@ -419,12 +427,12 @@ const EVENTS = [
     note:{ kind:"good", text:"Wide 3-hour window — work around swim (if started) and Tatum's ballet." } },
   { d:"2026-11-14", title:"Lowe's Workshop: Holiday Engine", time:"10 AM–1 PM",
     loc:"Lowe's (nearest store)", fit:"both", ages:"Ages 4–11 · fits BOTH girls", cat:"house", color:"c-red",
-    reg:{ label:"Register when it opens (~2 wks ahead)", url:"https://www.lowes.com/events", hot:true },
+    reg:{ label:"Registration opens Oct 10", url:"https://www.lowes.com/events", hot:true },
     note:{ kind:"good", text:"Holiday train build for both girls — the after-ballet arrival works again." } },
-  { d:"2026-11-20", title:"Light Up Night — holiday season kickoff", time:"Evening · Downtown",
+  { d:"2026-11-21", title:"Light Up Night — holiday season kickoff", time:"Evening · Downtown",
     loc:"Downtown Pittsburgh", fit:"both", ages:"All ages", cat:"flag", color:"c-deep",
-    reg:{ label:"Traditionally Fri before Thanksgiving — confirm", url:"https://downtownpittsburgh.com/events/" },
-    note:{ kind:"good", text:"Tree lightings, Santa, fireworks, and the Peoples Gas Holiday Market opens. Date is the traditional slot — watch for official confirmation." } },
+    reg:{ label:"Traditionally Sat before Thanksgiving — confirm", url:"https://downtownpittsburgh.com/events/" },
+    note:{ kind:"warn", text:"Since 2021 it runs the SATURDAY before Thanksgiving (Nov 22 in 2025), so Nov 21 is the likely slot — official 2026 date not posted yet. Home Depot's Christmas Car build is that morning; both fit." } },
   { d:"2026-11-21", title:"Home Depot Workshop: Christmas Car", time:"9 AM–12 PM",
     loc:"Home Depot (East Liberty)", fit:"both", ages:"Ages 5–12 · Tatum with a hand", cat:"hammer", color:"c-orange",
     reg:{ label:"Registration opens ~Nov 1", url:"https://www.homedepot.com/workshops/" },
