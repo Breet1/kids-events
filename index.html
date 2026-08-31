@@ -35,6 +35,16 @@
     border-radius:999px; background:transparent; color:rgba(255,255,255,.85); transition:all .15s; }
   .tab.active { background:#fff; color:var(--blue-deep); box-shadow:0 3px 10px rgba(20,25,80,.25); }
   .pane { display:none; } .pane.active { display:block; }
+  .acts-row { display:flex; align-items:center; justify-content:flex-end; gap:10px; margin:-8px 2px 14px; color:#fff; font-size:.8rem; font-weight:700; }
+  .switch { position:relative; width:44px; height:24px; border-radius:999px; background:rgba(255,255,255,.25); cursor:pointer; border:none; transition:background .15s; }
+  .switch::after { content:""; position:absolute; top:3px; left:3px; width:18px; height:18px; border-radius:50%; background:#fff; transition:left .15s; }
+  .switch.on { background:var(--pink-hot); }
+  .switch.on::after { left:23px; }
+  .act-card { background:rgba(255,255,255,.93); border-radius:14px; padding:9px 13px; margin-bottom:8px; display:flex; gap:9px; align-items:center; flex-wrap:wrap; font-size:.85rem; box-shadow:0 4px 12px rgba(20,25,90,.12); }
+  .act-title { font-weight:800; }
+  .act-loc { color:var(--muted); font-size:.76rem; }
+  .act-badge { font-size:.6rem; font-weight:800; letter-spacing:.06em; padding:3px 8px; border-radius:999px; background:#eef0ff; color:var(--blue-deep); }
+  .dot.actdot { background:#b9bfd8; }
 
   /* ---------- filter pills ---------- */
   .legend { display:flex; gap:8px; flex-wrap:wrap; margin:0 0 18px; }
@@ -249,6 +259,7 @@
     <button class="tab" data-t="list">All Events</button>
     <button class="tab" data-t="soon">Movies &amp; Shows</button>
   </div>
+  <div class="acts-row"><span>Kids' enrolled activities</span><button class="switch" id="actSwitch" aria-label="Toggle enrolled activities"></button></div>
 
   <div class="alert">
     <svg class="spark" viewBox="0 0 24 24" width="32" height="32"><use href="#i-spark"/></svg>
@@ -313,7 +324,7 @@ const EVENTS = [
   { d:"2026-09-01", title:"Apple Kids: Create Comics Inspired by Planet Earth", time:"3:00–4:00 PM",
     loc:"Apple Ross Park (~25 min)", fit:"waverly", cat:"tablet", color:"c-blue",
     reg:{ label:"Book a free spot", url:"https://www.apple.com/today/calendar/rosspark/" },
-    note:{ kind:"warn", text:"Both girls have dance 5–6 in Allison Park — Ross Park to Allison Park is doable but tight." } },
+    note:{ kind:"good", text:"School day + 25-min drive, but dance doesn't start until Sep 15 — the evening is clear." } },
   { d:"2026-09-02", title:"Aviary Early Childhood Morning: The Color RED!", time:"10:30–11:30 AM",
     loc:"National Aviary, North Side", fit:"tatum", ages:"Under 5 · with admission", cat:"bird", color:"c-pink", paid:true,
     reg:{ label:"Details & admission", url:"https://www.aviary.org/" },
@@ -321,15 +332,15 @@ const EVENTS = [
   { d:"2026-09-02", title:"Apple Kids: Create Comics Inspired by Planet Earth", time:"5:00–6:00 PM",
     loc:"Apple Shadyside (~5 min)", fit:"waverly", cat:"tablet", color:"c-blue",
     reg:{ label:"Book a free spot", url:"https://www.apple.com/today/calendar/shadyside/" },
-    note:{ kind:"warn", text:"Ends at 6 right as Waverly's remote Reading Guru starts — she'd log in a few minutes late." } },
+    note:{ kind:"good", text:"Clean fit — tutoring starts the following week." } },
   { d:"2026-09-05", title:"Home Depot Workshop: School Bus Organizer", time:"9 AM–12 PM",
     loc:"Home Depot (East Liberty)", fit:"both", ages:"Ages 5–12 · Tatum with a hand", cat:"hammer", color:"c-orange",
     reg:{ label:"Registration open — reserve a kit", url:"https://www.homedepot.com/workshops/" },
-    note:{ kind:"good", text:"Doable: slot it between tennis (ends 10) and Tatum's 10:45 ballet, or right after 11:30 — the window is 3 hours wide." } },
+    note:{ kind:"good", text:"Only tennis (9–10) to work around — ballet doesn't start until the 12th, and the window is 3 hours wide." } },
   { d:"2026-09-05", title:"Apple Kids: Create Comics Inspired by Planet Earth", time:"1:00–2:00 PM",
     loc:"Apple Shadyside (~5 min)", fit:"waverly", cat:"tablet", color:"c-blue",
     reg:{ label:"Book a free spot", url:"https://www.apple.com/today/calendar/shadyside/" },
-    note:{ kind:"good", text:"Fits nicely after Tatum's ballet wraps at 11:30." } },
+    note:{ kind:"good", text:"Fits nicely after morning tennis — ballet hasn't started yet." } },
   { d:"2026-09-05", title:"Apple Kids: Create an Interactive Story of Kindness", time:"3:00–4:00 PM",
     loc:"Apple Ross Park (~25 min)", fit:"waverly", cat:"tablet", color:"c-blue",
     reg:{ label:"Book a free spot", url:"https://www.apple.com/today/calendar/rosspark/" },
@@ -349,11 +360,11 @@ const EVENTS = [
   { d:"2026-09-08", title:"Apple Kids: Create Comics Inspired by Planet Earth", time:"3:00–4:00 PM",
     loc:"Apple Ross Park (~25 min)", fit:"waverly", cat:"tablet", color:"c-blue",
     reg:{ label:"Book a free spot", url:"https://www.apple.com/today/calendar/rosspark/" },
-    note:{ kind:"warn", text:"Both girls have dance 5–6 in Allison Park — tight; Dina has them from 2:30 if she can drive." } },
+    note:{ kind:"good", text:"School day + drive; dance doesn't start until the 15th, so no evening clash." } },
   { d:"2026-09-10", title:"Apple Kids: Direct Your Own Friendship Film on iPad", time:"6:00–7:00 PM",
     loc:"Apple Shadyside (~5 min)", fit:"waverly", cat:"tablet", color:"c-blue",
     reg:{ label:"Book a free spot", url:"https://www.apple.com/today/calendar/shadyside/" },
-    note:{ kind:"warn", text:"Waverly's Thu dance is 5–6 in Allison Park — a 20-min dash to make 6:00." } },
+    note:{ kind:"good", text:"Clean fit — Thursday dance doesn't start until Sep 15." } },
   { d:"2026-09-11", title:"Harry Potter Weekend — free outdoor movies", time:"Evenings · Sep 10–12",
     loc:"The Plaza at North Shore", fit:"both", ages:"All ages · bring a blanket", cat:"film", color:"c-deep",
     reg:{ label:"Titles & showtimes", url:"https://www.plazaatnorthshore.com/events/" },
@@ -440,14 +451,18 @@ const EVENTS = [
     loc:"Home Depot (East Liberty)", fit:"both", ages:"Ages 5–12 · Tatum with a hand", cat:"hammer", color:"c-orange",
     reg:{ label:"Registration opens ~Nov 1", url:"https://www.homedepot.com/workshops/" },
     note:{ kind:"good", text:"Bonus second workshop this month — same wide-window juggle around Saturday activities." } },
-  { d:"2026-10-17", title:"SSA Homecoming & Reunion Weekend", time:"Oct 16–17 · see school comms",
-    loc:"Shady Side Academy, Fox Chapel campus", fit:"both", ages:"All-school family event", cat:"book", color:"c-deep",
+  { d:"2026-10-17", title:"SSA Homecoming Carnival, Tailgate & Football", time:"11 AM–2:30 PM · kickoff 2 PM",
+    loc:"Michael J. Farrell Stadium, Fox Chapel campus", fit:"both", ages:"Food, games, music · Bulldogs vs. Yough at 2", cat:"book", color:"c-deep",
     reg:{ label:"SSA calendar", url:"https://www.shadysideacademy.org/calendar" },
-    note:{ kind:"warn", text:"Same Saturday as ZooBoo weekend one and Tatum's ballet — pick your battles; details come via school comms." } },
+    note:{ kind:"warn", text:"Come after ballet (~11:30) for the carnival, stay for the 2 PM kickoff. Same day as ZooBoo — pick one." } },
   { d:"2026-10-25", title:"SSA Haunted Walk", time:"Sunday · time TBA",
     loc:"Shady Side Academy", fit:"both", ages:"School Halloween event · costumes", cat:"book", color:"c-deep",
     reg:{ label:"SSA calendar — watch for details", url:"https://www.shadysideacademy.org/calendar" },
     note:{ kind:"good", text:"The school's Halloween event, the weekend before trick-or-treat. Chess at 1 is remote, so the afternoon flexes." } },
+  { d:"2026-09-04", title:"UPA All-Academy Tailgate", time:"5:00–7:00 PM",
+    loc:"Hillman Center lot, Upper School campus", fit:"both", ages:"Food trucks, games, football at 7", cat:"book", color:"c-deep",
+    reg:{ label:"Just show up — no alcohol or charcoal grills", url:"https://www.shadysideacademy.org/calendar" },
+    note:{ kind:"good", text:"First Ninja Khana runs 4:15–5 in Point Breeze — head straight up afterward; the big home football game kicks off at 7." } },
 ];
 
 const ONGOING = [
@@ -501,6 +516,27 @@ const DAYS_OFF = {
   "2026-11-24":"Thanksgiving break","2026-11-25":"Thanksgiving break",
   "2026-11-26":"Thanksgiving","2026-11-27":"Thanksgiving break",
 };
+
+/* ---------- enrolled activities (toggle) ---------- */
+const ACTIVITIES = [];
+const addAct = (d,title,time,who,loc,m) => ACTIVITIES.push({d,title,time,who,loc,m});
+function eachWeekly(fromISO,toISO,dow,fn){
+  const dt = new Date(fromISO+"T12:00:00"), end = new Date(toISO+"T12:00:00");
+  while (dt <= end){ if (dt.getDay()===dow){ fn(dt.toISOString().slice(0,10)); dt.setDate(dt.getDate()+7); } else dt.setDate(dt.getDate()+1); }
+}
+["2026-09-28","2026-10-07","2026-10-12","2026-10-19","2026-10-26","2026-11-02","2026-11-16","2026-11-23","2026-12-07","2026-12-14","2027-01-04","2027-01-11"]
+  .forEach(d => addAct(d,"Irish Dance","6:00–6:45 PM","waverly","Brother Andre's Café, Epiphany",1080));
+eachWeekly("2026-09-15","2027-06-30",2, d => addAct(d,"Dance Mechanics","5:00–6:00 PM","both","Allison Park",1020));
+eachWeekly("2026-09-17","2027-06-30",4, d => addAct(d,"Dance Mechanics","5:00–6:00 PM","waverly","Allison Park",1020));
+eachWeekly("2026-09-09","2027-06-30",3, d => addAct(d,"Reading Guru tutoring","6:00–6:30 PM","waverly","Remote (iPad)",1080));
+eachWeekly("2026-09-12","2027-06-30",6, d => addAct(d,"PBT Pre-Ballet 4","10:45–11:30 AM","tatum","Pittsburgh Ballet Theatre, Strip District",645));
+eachWeekly("2026-09-05","2026-09-26",6, d => addAct(d,"Tennis","9:00–10:00 AM","both","Mellon Park Tennis Center",540));
+eachWeekly("2026-09-04","2026-11-20",5, d => addAct(d,"Ninja Khana Jr","4:15–5:00 PM","both","Gymkhana, Point Breeze",975));
+eachWeekly("2026-09-06","2027-06-30",0, d => addAct(d,"Chess","1:00 PM","waverly","Remote",780));
+const byDateAct = {};
+ACTIVITIES.forEach(a => (byDateAct[a.d] = byDateAct[a.d] || []).push(a));
+Object.values(byDateAct).forEach(arr => arr.sort((x,y)=>x.m-y.m));
+let showActs = false; try { showActs = localStorage.getItem("showActs")==="1"; } catch(e){}
 
 const FIT_BADGE = {
   both:'<span class="badge b-both">Both girls</span>',
@@ -564,12 +600,14 @@ function buildCalendar(){
   }
   cells.forEach(c => {
     const evs = byDate[c.d] || [];
+    const acts = showActs ? (byDateAct[c.d] || []) : [];
     const off = !c.other && DAYS_OFF[c.d];
-    const has = (evs.length > 0 || off) && !c.other;
+    const has = (evs.length > 0 || acts.length > 0 || off) && !c.other;
     const fits = [...new Set(evs.map(e=>e.fit))].slice(0,3);
+    if (acts.length && fits.length < 3) fits.push("act");
     const cls = ["cell", c.other?"other":"", has?"has":"", off?"off":"", c.d===selected&&has?"sel":"", c.d===todayStr?"today":""].filter(Boolean).join(" ");
     html += `<button class="${cls}" ${has?`data-d="${c.d}"`:"disabled"}>
-      <span>${c.n}</span><span class="dots">${fits.map(f=>`<i class="dot ${f}"></i>`).join("")}</span></button>`;
+      <span>${c.n}</span><span class="dots">${fits.map(f=>`<i class="dot ${f==="act"?"actdot":f}"></i>`).join("")}</span></button>`;
   });
   grid.innerHTML = html;
 }
@@ -578,11 +616,13 @@ document.getElementById("nextM").addEventListener("click", () => { if (monthIdx<
 function renderDayDetail(){
   const box = document.getElementById("dayDetail");
   const evs = byDate[selected] || [];
+  const acts = showActs ? (byDateAct[selected] || []) : [];
+  const actsHtml = acts.map(a => `<div class="act-card"><span class="act-badge">ENROLLED</span><span class="act-title">${a.title}</span><span class="time">${a.time}</span>${FIT_BADGE[a.who]}<span class="act-loc">${a.loc}</span></div>`).join("");
   const off = DAYS_OFF[selected];
   const offBanner = off ? `<div class="off-banner">${icon("i-spark")} <span><b>${off}</b> — both girls free all day, so daytime events and museums are in play.</span></div>` : "";
-  const empty = (!evs.length && off) ? `<div class="off-banner">${icon("i-check")} <span>Nothing booked yet — good day for the Children's Museum, Phipps, or library storytime.</span></div>` : "";
+  const empty = (!evs.length && !acts.length && off) ? `<div class="off-banner">${icon("i-check")} <span>Nothing booked yet — good day for the Children's Museum, Phipps, or library storytime.</span></div>` : "";
   box.innerHTML = `<div class="day"><h2>${fmtDay(selected)}${selected===todayStr?' <span class="today-pill">Today</span>':''}</h2>
-    ${offBanner}${evs.map(ev=>cardHTML(ev, selected<todayStr)).join("")}${empty}</div>`;
+    ${offBanner}${actsHtml}${evs.map(ev=>cardHTML(ev, selected<todayStr)).join("")}${empty}</div>`;
 }
 document.getElementById("calGrid").addEventListener("click", e => {
   const btn = e.target.closest(".cell.has"); if (!btn) return;
@@ -629,6 +669,14 @@ document.getElementById("csMovies").innerHTML = MOVIES.map(csCard).join("");
 document.getElementById("csShows").innerHTML = SHOWS.map(csCard).join("");
 
 /* ---------- tabs ---------- */
+const actSwitch = document.getElementById("actSwitch");
+if (showActs) actSwitch.classList.add("on");
+actSwitch.addEventListener("click", () => {
+  showActs = !showActs;
+  actSwitch.classList.toggle("on", showActs);
+  try { localStorage.setItem("showActs", showActs ? "1" : "0"); } catch(e){}
+  buildCalendar(); renderDayDetail();
+});
 document.getElementById("tabs").addEventListener("click", e => {
   const btn = e.target.closest(".tab"); if (!btn) return;
   document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
