@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Waverly &amp; Tatum — Kids Events</title>
+<style>
+  :root { color-scheme: light;
+    --blue:#4353ff; --blue-deep:#2b3fd6; --blue-bg:#4a58f0;
+    --red:#ff4b2e; --orange:#ffb020; --pink:#ff8fc0; --pink-hot:#ff5f9e;
+    --ink:#23252e; --muted:#8a8fa3; --line:#eef0f6; --card:#ffffff;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--blue-bg); color:var(--ink); padding:28px 16px 56px; line-height:1.45;
+    background-image:radial-gradient(circle at 12% 6%, rgba(255,255,255,.07) 0 140px, transparent 141px),
+                     radial-gradient(circle at 90% 24%, rgba(255,255,255,.06) 0 180px, transparent 181px);
+  }
+  .wrap { max-width:720px; margin:0 auto; }
+
+  /* ---------- header ---------- */
+  header { display:flex; align-items:center; gap:16px; margin-bottom:4px; }
+  header .mascot { flex:0 0 140px; }
+  header h1 { color:#fff; font-size:1.65rem; font-weight:800; letter-spacing:-.03em; line-height:1.15; }
+  header .sub { color:rgba(255,255,255,.75); font-size:.9rem; margin-top:6px; font-weight:500; }
+  header .sub b { color:#fff; }
+
+  /* ---------- tabs ---------- */
+  .tabs { display:flex; background:rgba(255,255,255,.16); border-radius:999px; padding:4px; margin:18px 0 20px; }
+  .tab { flex:1; border:none; cursor:pointer; font-size:.85rem; font-weight:700; padding:9px 8px;
+    border-radius:999px; background:transparent; color:rgba(255,255,255,.85); transition:all .15s; }
+  .tab.active { background:#fff; color:var(--blue-deep); box-shadow:0 3px 10px rgba(20,25,80,.25); }
+  .pane { display:none; } .pane.active { display:block; }
+
+  /* ---------- filter pills ---------- */
+  .legend { display:flex; gap:8px; flex-wrap:wrap; margin:0 0 18px; }
+  .chip { border:none; cursor:pointer; font-size:.8rem; font-weight:700; padding:7px 14px;
+    border-radius:999px; background:rgba(255,255,255,.16); color:#fff; transition:all .15s; }
+  .chip:hover { background:rgba(255,255,255,.28); }
+  .chip.active { background:#fff; box-shadow:0 3px 10px rgba(20,25,80,.25); }
+  .chip[data-f="all"].active { color:var(--ink); }
+  .chip[data-f="both"].active { color:var(--red); }
+  .chip[data-f="waverly"].active { color:var(--blue); }
+  .chip[data-f="tatum"].active { color:var(--pink-hot); }
+  .chip[data-f="weekend"].active { color:#c98a2b; }
+
+  /* ---------- alert ---------- */
+  .alert { background:#fff; border-radius:20px; padding:15px 17px; margin-bottom:8px;
+    display:flex; gap:13px; align-items:flex-start; box-shadow:0 8px 24px rgba(20,25,90,.18); }
+  .alert svg.spark { flex:0 0 32px; margin-top:2px; }
+  .alert .tag { color:var(--red); font-weight:800; font-size:.72rem; text-transform:uppercase; letter-spacing:.09em; }
+  .alert p { font-size:.9rem; margin-top:3px; }
+  .alert a { color:var(--red); font-weight:700; }
+
+  /* ---------- calendar ---------- */
+  .cal { background:#fff; border-radius:22px; padding:18px 16px 14px; box-shadow:0 8px 24px rgba(20,25,90,.18); }
+  .cal-head { display:flex; align-items:center; justify-content:center; gap:14px; margin-bottom:14px; }
+  .cal-head h3 { font-size:1.05rem; font-weight:800; letter-spacing:-.01em; min-width:150px; text-align:center; }
+  .cal-nav { border:none; cursor:pointer; width:32px; height:32px; border-radius:50%; background:#eef0ff;
+    color:var(--blue-deep); font-size:1.25rem; font-weight:800; line-height:1; display:flex; align-items:center; justify-content:center; }
+  .cal-nav:hover { background:#e0e4ff; }
+  .cal-nav:disabled { opacity:.3; cursor:default; }
+  .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; text-align:center; }
+  .dow { font-size:.7rem; font-weight:800; color:var(--muted); padding-bottom:6px; }
+  .cell { position:relative; aspect-ratio:1; border:none; background:none; border-radius:14px; cursor:default;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+    font-size:.88rem; font-weight:600; color:var(--ink); font-family:inherit; }
+  .cell.other { color:#c9cdda; }
+  .cell.has { cursor:pointer; background:#f2f4ff; font-weight:800; }
+  .cell.has:hover { background:#e6e9ff; }
+  .cell.sel { background:var(--blue); color:#fff; box-shadow:0 4px 12px rgba(43,63,214,.35); }
+  .cell.today::after { content:""; position:absolute; top:5px; right:7px; width:6px; height:6px; border-radius:50%; background:var(--orange); }
+  .cell.off { background:#fff3d9; }
+  .cell.off.has { background:#ffedc4; }
+  .cell.off.sel { background:var(--blue); }
+  .off-banner { background:#fff; border-radius:16px; padding:12px 15px; margin-bottom:10px; display:flex; gap:10px; align-items:center;
+    box-shadow:0 6px 18px rgba(20,25,90,.16); font-size:.88rem; font-weight:600; }
+  .off-banner svg { width:22px; height:22px; flex:none; }
+  .off-banner b { color:#b07708; }
+  .dots { display:flex; gap:2.5px; height:5px; }
+  .dot { width:5px; height:5px; border-radius:50%; }
+  .dot.both { background:var(--red); } .dot.waverly { background:var(--blue); } .dot.tatum { background:var(--pink-hot); }
+  .cell.sel .dot { background:#fff; }
+  .cal-legend { display:flex; gap:14px; justify-content:center; margin-top:12px; font-size:.72rem; font-weight:700; color:var(--muted); }
+  .cal-legend span { display:flex; align-items:center; gap:5px; }
+  .cal-legend i { width:7px; height:7px; border-radius:50%; display:inline-block; }
+  #dayDetail { margin-top:16px; }
+  #dayDetail .day h2 { margin-top:2px; }
+
+  /* ---------- day sections & cards ---------- */
+  .day { margin-top:24px; }
+  .day h2 { font-size:.78rem; text-transform:uppercase; letter-spacing:.1em; font-weight:800;
+    color:rgba(255,255,255,.85); margin-bottom:10px; display:flex; align-items:center; gap:8px; }
+  .day h2::before { content:""; width:8px; height:8px; border-radius:50%; background:var(--orange); }
+  .day h2 .today-pill { color:#fff; background:var(--red); font-size:.66rem; padding:2px 9px; border-radius:999px; letter-spacing:.06em; }
+
+  .card { background:var(--card); border-radius:20px; padding:15px; margin-bottom:12px;
+    box-shadow:0 6px 18px rgba(20,25,90,.16); display:flex; gap:13px; }
+  .card.past { opacity:.5; }
+  .cat-ic { flex:0 0 44px; height:44px; border-radius:14px; display:flex; align-items:center; justify-content:center; }
+  .c-blue { background:var(--blue); } .c-red { background:var(--red); }
+  .c-orange { background:var(--orange); } .c-pink { background:var(--pink-hot); } .c-deep { background:var(--blue-deep); }
+  .cat-ic svg { width:25px; height:25px; }
+  .body { flex:1; min-width:0; }
+  .row1 { display:flex; justify-content:space-between; gap:10px; align-items:baseline; flex-wrap:wrap; }
+  .title { font-weight:800; font-size:.98rem; letter-spacing:-.01em; }
+  .time { font-weight:700; font-size:.8rem; white-space:nowrap; color:var(--blue); background:#eef0ff;
+    padding:3px 10px; border-radius:999px; }
+  .meta { color:var(--muted); font-size:.84rem; margin-top:5px; display:flex; align-items:center; gap:6px; }
+  .meta svg { width:14px; height:14px; flex:none; }
+  .badges { display:flex; gap:6px; margin-top:8px; flex-wrap:wrap; }
+  .badge { font-size:.68rem; font-weight:800; padding:4px 11px; border-radius:999px; letter-spacing:.02em; }
+  .b-tatum { background:#ffe4f0; color:var(--pink-hot); }
+  .b-waverly { background:#e6e9ff; color:var(--blue); }
+  .b-both { background:#ffe8e3; color:var(--red); }
+  .b-free { background:#fff3d9; color:#b07708; }
+  .b-paid { background:#f0f1f5; color:#6a7086; }
+  .reg { font-size:.85rem; margin-top:9px; display:flex; align-items:center; gap:7px; }
+  .reg svg { width:16px; height:16px; flex:none; }
+  .reg a { color:var(--blue); font-weight:700; text-decoration:none; }
+  .reg a:hover { text-decoration:underline; }
+  .reg.hot a { color:var(--red); }
+  .note { font-size:.8rem; margin-top:8px; padding:8px 11px; border-radius:12px; display:flex; gap:8px; align-items:flex-start; }
+  .note svg { width:15px; height:15px; flex:none; margin-top:1px; }
+  .note.warn { background:#fff3ec; color:#b04a15; }
+  .note.good { background:#e9f0ff; color:#2b3fd6; }
+
+  /* ---------- coming soon ---------- */
+  .cs-h { color:#fff; font-weight:800; font-size:.82rem; text-transform:uppercase; letter-spacing:.1em;
+    margin:22px 0 10px; display:flex; align-items:center; gap:8px; }
+  .cs-h::before { content:""; width:8px; height:8px; border-radius:50%; background:var(--pink); }
+  .cs-h:first-child { margin-top:0; }
+  .cs-card { background:#fff; border-radius:18px; padding:13px 15px; margin-bottom:10px; display:flex; gap:12px; align-items:center;
+    box-shadow:0 6px 18px rgba(20,25,90,.16); }
+  .cs-date { flex:0 0 52px; text-align:center; background:#eef0ff; border-radius:13px; padding:7px 4px; }
+  .cs-date .m { font-size:.6rem; font-weight:800; text-transform:uppercase; color:var(--blue); letter-spacing:.06em; }
+  .cs-date .n { font-size:1.15rem; font-weight:800; color:var(--blue-deep); line-height:1.1; }
+  .cs-body { flex:1; min-width:0; }
+  .cs-title { font-weight:800; font-size:.95rem; }
+  .cs-meta { color:var(--muted); font-size:.82rem; margin-top:2px; }
+  .cs-tag { font-size:.66rem; font-weight:800; padding:3px 9px; border-radius:999px; white-space:nowrap; }
+  .t-theater { background:#ffe8e3; color:var(--red); }
+  .t-stream { background:#e6e9ff; color:var(--blue); }
+
+  /* ---------- footer ---------- */
+  footer { margin-top:34px; background:rgba(255,255,255,.12); border-radius:20px; padding:15px 18px;
+    color:rgba(255,255,255,.9); font-size:.79rem; }
+  footer p { margin-bottom:6px; } footer p:last-child { margin-bottom:0; }
+  footer a { color:#fff; font-weight:700; }
+  footer .ldot { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:3px; vertical-align:-1px; }
+</style>
+</head>
+<body>
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 2.6v18.8M3.9 7.3l16.2 9.4M3.9 16.7l16.2-9.4" stroke="#ff4b2e" stroke-width="3.4" stroke-linecap="round" fill="none"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 2.5a7 7 0 0 0-7 7c0 4.8 7 12 7 12s7-7.2 7-12a7 7 0 0 0-7-7z" fill="#ff8fc0"/><circle cx="12" cy="9.4" r="2.7" fill="#fff"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 24 24"><path d="M3.5 7.5h17v3.2a1.8 1.8 0 0 0 0 3.6v3.2h-17v-3.2a1.8 1.8 0 0 0 0-3.6z" fill="#ffb020"/><path d="M9.5 8v9.5" stroke="#fff" stroke-width="1.6" stroke-dasharray="2.4 2.2"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 4.2 20.8 19.4H3.2z" fill="#ff4b2e" stroke="#ff4b2e" stroke-width="3" stroke-linejoin="round"/><rect x="11" y="9.4" width="2" height="5.4" rx="1" fill="#fff"/><circle cx="12" cy="17" r="1.25" fill="#fff"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#4353ff"/><path d="m7.4 12.4 3.1 3.2 6.1-7.1" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-tablet" viewBox="0 0 24 24"><rect x="4.5" y="3" width="15" height="18" rx="3" fill="#fff"/><rect x="7" y="6" width="10" height="9" rx="1.5" fill="#4353ff" opacity=".25"/><path d="M8 8.2h5M8 10.6h7" stroke="#4353ff" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="18" r="1.2" fill="#4353ff"/></symbol>
+  <symbol id="i-hammer" viewBox="0 0 24 24"><rect x="4" y="4.4" width="12" height="6.4" rx="2.4" fill="#fff"/><rect x="10.6" y="9.4" width="4" height="11" rx="2" fill="#ffdca8" transform="rotate(-14 12.6 15)"/></symbol>
+  <symbol id="i-house" viewBox="0 0 24 24"><path d="m12 3.4 8.6 7.2h-2.2V20a1 1 0 0 1-1 1H6.6a1 1 0 0 1-1-1v-9.4H3.4z" fill="#fff"/><rect x="9.8" y="14" width="4.4" height="7" rx="1" fill="#ff4b2e" opacity=".8"/><circle cx="12" cy="9.6" r="1.7" fill="#ffb020"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M6 3.4v18" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><path d="M8 4.6c3.4-1.6 6.2 1.7 9.8.2l-1.6 5.4c-3.4 1.4-6.2-1.8-8.2-.4z" fill="#fff"/></symbol>
+  <symbol id="i-bird" viewBox="0 0 24 24"><path d="M5 14c0-4.4 3.1-8 7.4-8 2.9 0 4.6 1.7 5.2 3.4l3 1.2-2.6 1.5c-.3 4.5-3.4 7.4-7.6 7.4H4l3-2.6C5.8 16.4 5 15.3 5 14z" fill="#fff"/><circle cx="14.6" cy="9.6" r="1.1" fill="#23252e"/><path d="M20 10.4l-2-.6" stroke="#ffb020" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-film" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="2.6" fill="#fff"/><path d="M3.5 9h17M3.5 15h17" stroke="#4353ff" stroke-width="1.4" opacity=".5"/><path d="m10.4 10.2 4 1.8-4 1.8z" fill="#ff4b2e"/></symbol>
+  <symbol id="i-science" viewBox="0 0 24 24"><path d="M10 3.5h4M11 3.5v6l-4.6 8a2.4 2.4 0 0 0 2.1 3.6h7a2.4 2.4 0 0 0 2.1-3.6L13 9.5v-6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.6 15.5h6.8l1.6 2.8a1 1 0 0 1-.9 1.6h-8.2a1 1 0 0 1-.9-1.6z" fill="#ffb020"/></symbol>
+</svg>
+
+<div class="wrap">
+  <header>
+    <!-- Waverly & Tatum cats -->
+    <svg class="mascot" viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="112" cy="104" r="86" fill="#2b3fd6"/>
+      <g transform="rotate(-4 150 56)">
+        <rect x="104" y="24" width="96" height="62" rx="12" fill="#ffb020"/>
+        <rect x="116" y="38" width="44" height="7" rx="3.5" fill="#fff"/>
+        <rect x="116" y="52" width="64" height="7" rx="3.5" fill="#fff" opacity=".75"/>
+      </g>
+      <path d="M28 150q-14-6-10-20" stroke="#ff8fc0" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <path d="M196 142q16-4 14-20" stroke="#fff" stroke-width="8" fill="none" stroke-linecap="round"/>
+      <!-- big cat: Waverly -->
+      <g>
+        <path d="M52 66 62 40l16 16z" fill="#fff"/><path d="M110 62 104 36l-17 14z" fill="#4353ff"/>
+        <path d="M56 63 63 46l10 10z" fill="#ff8fc0"/>
+        <g fill="#fff">
+          <ellipse cx="84" cy="128" rx="52" ry="46"/>
+          <circle cx="82" cy="84" r="34"/>
+          <circle cx="46" cy="118" r="14"/><circle cx="42" cy="142" r="12"/>
+          <circle cx="122" cy="102" r="16"/><circle cx="58" cy="94" r="14"/>
+          <circle cx="62" cy="166" r="11"/><circle cx="104" cy="168" r="12"/>
+        </g>
+        <circle cx="72" cy="82" r="3" fill="#23252e"/><circle cx="94" cy="82" r="3" fill="#23252e"/>
+        <path d="M80 90.5 83 88l3 2.5-3 2.5z" fill="#ff5f9e"/>
+        <path d="M77 96q6 5 12 0" stroke="#23252e" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+        <path d="M56 86h-12M57 92l-11 3M110 86h12M109 92l11 3" stroke="#23252e" stroke-width="1.6" stroke-linecap="round"/>
+      </g>
+      <!-- small cat: Tatum -->
+      <g>
+        <path d="M138 106 146 84l14 13z" fill="#fff"/><path d="M186 104 182 82l-16 11z" fill="#ff5f9e"/>
+        <g fill="#fff">
+          <ellipse cx="164" cy="150" rx="38" ry="34"/>
+          <circle cx="162" cy="118" r="26"/>
+          <circle cx="132" cy="146" r="11"/><circle cx="194" cy="142" r="11"/>
+          <circle cx="148" cy="176" r="9"/><circle cx="180" cy="176" r="9"/>
+        </g>
+        <circle cx="154" cy="116" r="2.6" fill="#23252e"/><circle cx="172" cy="116" r="2.6" fill="#23252e"/>
+        <path d="M160.5 123.5 163 121.5l2.5 2-2.5 2z" fill="#ff5f9e"/>
+        <path d="M158 129q5 4 10 0" stroke="#23252e" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M142 119h-10M143 124l-9 2.4M184 119h10M183 124l9 2.4" stroke="#23252e" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M150 100c3-5 9-5 12 0-5 2-7 2-12 0z" fill="#ff8fc0"/>
+        <circle cx="156" cy="99" r="2.4" fill="#ff5f9e"/>
+      </g>
+    </svg>
+    <div>
+      <h1>Waverly &amp; Tatum<br>Kids Events</h1>
+      <div class="sub">Sep – Nov 2026 · Pittsburgh · <b>free unless marked</b></div>
+    </div>
+  </header>
+
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-t="calendar">Calendar</button>
+    <button class="tab" data-t="list">All Events</button>
+    <button class="tab" data-t="soon">Coming Soon</button>
+  </div>
+
+  <div class="alert">
+    <svg class="spark" viewBox="0 0 24 24" width="32" height="32"><use href="#i-spark"/></svg>
+    <div>
+      <span class="tag">Book this week</span>
+      <p><strong>Lowe's Haunted House build (Sat Sep 12)</strong> fits <strong>both girls</strong> (ages 4–11) and spots fill fast — <a href="https://www.lowes.com/events" target="_blank" rel="noopener">register free</a>. And the girls are <strong>off school Mon Sep 7 &amp; Mon Sep 21</strong> — the yellow calendar days — good days for a big outing.</p>
+    </div>
+  </div>
+
+  <!-- CALENDAR PANE -->
+  <section class="pane active" id="pane-calendar">
+    <div class="cal">
+      <div class="cal-head">
+        <button class="cal-nav" id="prevM" aria-label="Previous month">&#8249;</button>
+        <h3 id="calTitle">September 2026</h3>
+        <button class="cal-nav" id="nextM" aria-label="Next month">&#8250;</button>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+      <div class="cal-legend">
+        <span><i style="background:var(--red)"></i>Both girls</span>
+        <span><i style="background:var(--blue)"></i>Waverly</span>
+        <span><i style="background:var(--pink-hot)"></i>Tatum</span>
+        <span><i style="background:var(--orange)"></i>Today</span>
+        <span><i style="background:#ffd98a"></i>No school</span>
+      </div>
+    </div>
+    <div id="dayDetail"></div>
+  </section>
+
+  <!-- LIST PANE -->
+  <section class="pane" id="pane-list">
+    <div class="legend" id="filters">
+      <button class="chip active" data-f="all">All</button>
+      <button class="chip" data-f="both">Both girls</button>
+      <button class="chip" data-f="waverly">Waverly (6)</button>
+      <button class="chip" data-f="tatum">Tatum (4)</button>
+      <button class="chip" data-f="weekend">Weekends</button>
+    </div>
+    <div id="events"></div>
+    <div class="cs-h">Ongoing all month</div>
+    <div id="ongoing"></div>
+  </section>
+
+  <!-- COMING SOON PANE -->
+  <section class="pane" id="pane-soon">
+    <div class="cs-h">Movies in theaters</div>
+    <div id="csMovies"></div>
+    <div class="cs-h">New shows to stream</div>
+    <div id="csShows"></div>
+    <p style="color:rgba(255,255,255,.7);font-size:.78rem;margin-top:10px">Streaming dates can shift — double-check the app before promising the girls.</p>
+  </section>
+
+  <footer>
+    <p><span class="ldot" style="background:var(--pink-hot)"></span> Tatum &nbsp;·&nbsp; <span class="ldot" style="background:#8fa0ff"></span> Waverly &nbsp;·&nbsp; <span class="ldot" style="background:var(--red)"></span> both girls. Notes flag conflicts with the fall schedule: Mon Irish dance 6 PM (W) · Tue dance 5–6 both · Wed tutoring 6 PM (W) · Thu dance 5–6 (W) · Fri Ninja Khana 4:15 both · Sat tennis 9–10 (thru Sep 26, then swim) + Tatum ballet 10:45 · Sun art with Mom 10 AM + chess 1 PM (W). Yellow calendar days = no school (Dina full days).</p>
+    <p>Apple Kids sessions are ages 6–10; a parent or caregiver stays the full hour. Apple only publishes ~2 weeks ahead, so October/November sessions appear here as they drop. Ross Park Mall / Nordstrom have no scheduled kids events — Nordstrom's Kids Zone is everyday drop-in. Halloween deep-cut list: <a href="https://www.kidsburgh.org/60-not-so-spooky-halloween-events-for-fun-loving-kids-in-the-pittsburgh-area/" target="_blank" rel="noopener">Kidsburgh's 60+ not-so-spooky events</a>.</p>
+    <p>Rainy-day extra for Tatum: CLP Squirrel Hill "Preschool Pals" storytime (ages 3–5), weekday mornings ~11 AM, best on school days off. <a href="https://www.carnegielibrary.org/events/category/storytimes/" target="_blank" rel="noopener">Schedule</a></p>
+  </footer>
+</div>
+
+<script>
+const EVENTS = [
+  { d:"2026-09-01", title:"Apple Kids: Create Comics Inspired by Planet Earth", time:"3:00–4:00 PM",
+    loc:"Apple Ross Park (~25 min)", fit:"waverly", cat:"tablet", color:"c-blue",
+    reg:{ label:"Book a free spot", url:"https://www.apple.com/today/calendar/rosspark/" },
+    note:{ kind:"warn", text:"Both girls have dance 5–6 in Allison Park — Ross Park to Allison Park is doable but tight." } },
+  { d:"2026-09-02", title:"Aviary Early Childhood Morning: The Color RED!", time:"10:30–11:30 AM",
+    loc:"National Aviary, North Side", fit:"tatum", ages:"Under 5 · with admission", cat:"bird", color:"c-pink", paid:true,
+    reg:{ label:"Details & admission", url:"https://www.aviary.org/" },
+    note:{ kind:"warn", text:"School-day morning — only works if Tatum's home from SPK." } },
+  { d:"2026-09-02", title:"Apple Kids: Create Comics Inspired by Planet Earth", time:"5:00–6:00 PM",
+    loc:"Apple Shadyside (~5 min)", fit:"waverly", cat:"tablet", color:"c-blue",
+    reg:{ label:"Book a free spot", url:"https://www.apple.com/today/calendar/shadyside/" },
+    note:{ kind:"warn", text:"Ends at 6 right as Waverly's remote Reading Guru starts — she'd log in a few minutes late." } },
+  { d:"2026-09-05", title:"Home Depot Workshop: School Bus Organizer", time:"9 AM–12 PM",
+    loc:"Home Depot (East Liberty)", fit:"both", ages:"Ages 5–12 · Tatum with a hand", cat:"hammer", color:"c-orange",
+    reg:{ label:"Registration open — reserve a kit", url:"https://www.homedepot.com/workshops/" },
+    note:{ kind:"good", text:"Doable: slot it between tennis (ends 10) and Tatum's 10:45 ballet, or right after 11:30 — the window is 3 hours wide." } },
+  { d:"2026-09-05", title:"Apple Kids: Create Comics Inspired by Planet Earth", time:"1:00–2:00 PM",
+    loc:"Apple Shadyside (~5 min)", fit:"waverly", cat:"tablet", color:"c-blue",
+    reg:{ label:"Book a free spot", url:"https://www.apple.com/today/calendar/shadyside/" },
+    note:{ kind:"good", text:"Fits nicely after Tatum's ballet wraps at 11:30." } },
+  { d:"2026-09-05", title:"Apple Kids: Create an Interactive Story of Kindness", time:"3:00–4:00 PM",
+    loc:"Apple Ross Park (~25 min)", fit:"waverly", cat:"tablet", color:"c-blue",
+    reg:{ label:"Book a free spot", url:"https://www.apple.com/today/calendar/rosspark/" },
+    note:{ kind:"good", text:"Backup if the 1 PM Shadyside session is full." } },
+  { d:"2026-09-06", title:"Mary Schenley Day — free family festival", time:"11 AM–6 PM",
+    loc:"Schenley Plaza, Oakland", fit:"both", ages:"All ages · drop-in", cat:"flag", color:"c-pink",
+    reg:{ label:"No registration — just show up", url:"https://www.kidsburgh.org/your-september-2026-pittsburgh-family-fun-guide-15-awesome-events-many-of-them-free/" },
+    note:{ kind:"good", text:"Drop-in all day — art with Mom in the morning, festival after Waverly's 1 PM chess." } },
+  { d:"2026-09-07", title:"Ren Fest Labor Day — girls are off school", time:"10:30 AM–6:30 PM",
+    loc:"Pittsburgh Renaissance Festival, West Newton", fit:"both", ages:"Kids 5–12 $12 · under 5 free", cat:"flag", color:"c-deep", paid:true,
+    reg:{ label:"Tickets", url:"https://www.pittsburghrenfest.com/information/" },
+    note:{ kind:"good", text:"Academy is closed for Labor Day and the Ren Fest runs its Monday — a full free day for a big outing." } },
+  { d:"2026-09-06", title:"Apple Kids: Code Your First App", time:"2:15–3:15 PM",
+    loc:"Apple Shadyside (~5 min)", fit:"waverly", cat:"tablet", color:"c-blue",
+    reg:{ label:"Book a free spot", url:"https://www.apple.com/today/calendar/shadyside/" },
+    note:{ kind:"warn", text:"Likely clashes with 1 PM chess. Ross Park runs the Friendship Film at 2:45 as an alternative." } },
+  { d:"2026-09-08", title:"Apple Kids: Create Comics Inspired by Planet Earth", time:"3:00–4:00 PM",
+    loc:"Apple Ross Park (~25 min)", fit:"waverly", cat:"tablet", color:"c-blue",
+    reg:{ label:"Book a free spot", url:"https://www.apple.com/today/calendar/rosspark/" },
+    note:{ kind:"warn", text:"Both girls have dance 5–6 in Allison Park — tight; Dina has them from 2:30 if she can drive." } },
+  { d:"2026-09-10", title:"Apple Kids: Direct Your Own Friendship Film on iPad", time:"6:00–7:00 PM",
+    loc:"Apple Shadyside (~5 min)", fit:"waverly", cat:"tablet", color:"c-blue",
+    reg:{ label:"Book a free spot", url:"https://www.apple.com/today/calendar/shadyside/" },
+    note:{ kind:"warn", text:"Waverly's Thu dance is 5–6 in Allison Park — a 20-min dash to make 6:00." } },
+  { d:"2026-09-11", title:"Harry Potter Weekend — free outdoor movies", time:"Evenings · Sep 10–12",
+    loc:"The Plaza at North Shore", fit:"both", ages:"All ages · bring a blanket", cat:"film", color:"c-deep",
+    reg:{ label:"Titles & showtimes", url:"https://www.plazaatnorthshore.com/events/" },
+    note:{ kind:"good", text:"Free big-screen movies with ice cream and popcorn stands. Runs Thu–Sat." } },
+  { d:"2026-09-11", title:"Trust Family free film series", time:"Sep 10–12 · check times",
+    loc:"Greer Cabaret Theater, Downtown", fit:"both", ages:"All ages", cat:"film", color:"c-red",
+    reg:{ label:"Cultural Trust family calendar", url:"https://culturaldistrict.org/calendar?genre=Family" },
+    note:{ kind:"good", text:"Free family film weekend from the Pittsburgh Cultural Trust." } },
+  { d:"2026-09-12", title:"Lowe's Workshop: Haunted House", time:"10 AM–1 PM",
+    loc:"Lowe's (nearest store)", fit:"both", ages:"Ages 4–11 · fits BOTH girls", cat:"house", color:"c-red",
+    reg:{ label:"Register now — spots fill fast", url:"https://www.lowes.com/events", hot:true },
+    note:{ kind:"good", text:"Come after Tatum's ballet wraps at 11:30 — the window runs until 1 PM." } },
+  { d:"2026-09-12", title:"DreamFest Block Party — hands-on science", time:"12–8 PM",
+    loc:"Citizen Science Lab, Hill District", fit:"both", ages:"All ages · drop-in", cat:"science", color:"c-orange",
+    reg:{ label:"Free — workshop sign-up separate", url:"https://thecitizensciencelab.org/programs/workshop-calendar" },
+    note:{ kind:"good", text:"STEM activities, DJs, mini science workshops. Could pair with Lowe's in the same afternoon." } },
+  { d:"2026-09-12", title:"Apple Kids: Code Your First App", time:"5:00–6:00 PM",
+    loc:"Apple Shadyside (~5 min)", fit:"waverly", cat:"tablet", color:"c-blue",
+    reg:{ label:"Book a free spot", url:"https://www.apple.com/today/calendar/shadyside/" },
+    note:{ kind:"good", text:"Clean fit — evening, nothing else scheduled." } },
+  { d:"2026-09-13", title:"Pittsburgh Irish Festival — family day", time:"Sep 11–13 · see times",
+    loc:"Carrie Blast Furnaces", fit:"both", ages:"All ages", cat:"flag", color:"c-deep", paid:true,
+    reg:{ label:"Tickets & times", url:"https://www.pghirishfest.org/" },
+    note:{ kind:"good", text:"Music, dance and kids' cultural activities — Sunday is the calmest day." } },
+  { d:"2026-09-19", title:"Hay Day — free county fall festival", time:"11 AM–3 PM",
+    loc:"Hartwood Acres Amphitheater", fit:"both", ages:"All ages", cat:"flag", color:"c-orange",
+    reg:{ label:"Free — no registration", url:"https://www.alleghenycounty.us/Parks-and-Events/Special-Events/Hay-Day" },
+    note:{ kind:"good", text:"Inflatables, petting zoo, pig races, hay rides. After Tatum's ballet works; repeats Sep 26 at South Park." } },
+  { d:"2026-09-19", title:"FlyBy Fun Run + Touch-a-Truck", time:"10 AM–3 PM",
+    loc:"Pittsburgh International Airport", fit:"both", ages:"2-mile fun run/walk", cat:"flag", color:"c-blue", paid:true,
+    reg:{ label:"Registration required", url:"https://www.kidsburgh.org/ec/flyby-5k-and-2-mile-run/" },
+    note:{ kind:"good", text:"Run the airport taxiways, then climb on airport trucks." } },
+  { d:"2026-09-26", title:"Junior Great Race — Fun Run + Tot Trot", time:"9:30 AM start",
+    loc:"Point State Park, Downtown", fit:"both", ages:"1-mile ages 5–12 + Tot Trot under 4", cat:"flag", color:"c-red",
+    reg:{ label:"Register — both girls get medals", url:"https://www.kidsburgh.org/ec/junior-great-race/", hot:true },
+    note:{ kind:"warn", text:"9:30 start clashes with the girls' LAST tennis Saturday (9–10) and Tatum's 10:45 ballet — pick one; every kid gets a medal." } },
+  { d:"2026-09-26", title:"Drum Fest — Kids Zone", time:"1–9 PM · kids' drum circle 2 PM",
+    loc:"Herr's Island", fit:"both", ages:"All ages", cat:"flag", color:"c-pink",
+    reg:{ label:"Free — RSVP requested", url:"https://www.eventbrite.com/e/drum-fest-2026-pittsburgh-festival-free-open-to-all-tickets-1985106266280" },
+    note:{ kind:"good", text:"Kids' drum circle 2 PM, magic show 3 PM, story times, free face painting." } },
+  { d:"2026-09-26", title:"Hay Day — South Park edition", time:"11 AM–3 PM",
+    loc:"South Park Fairgrounds", fit:"both", ages:"All ages", cat:"flag", color:"c-orange",
+    reg:{ label:"Free — no registration", url:"https://www.alleghenycounty.us/Parks-and-Events/Special-Events/Hay-Day" },
+    note:{ kind:"good", text:"Same lineup as Hartwood — pick whichever weekend works." } },
+  /* ---- October ---- */
+  { d:"2026-10-03", title:"Home Depot Workshop: Witch Candy Box", time:"9 AM–12 PM",
+    loc:"Home Depot (East Liberty)", fit:"both", ages:"Ages 5–12 · Tatum with a hand", cat:"hammer", color:"c-orange",
+    reg:{ label:"Registration opens ~Sep 1", url:"https://www.homedepot.com/workshops/" },
+    note:{ kind:"good", text:"Tennis is done by October; if Goldfish swim has started in the 9–10 slot, use the wide window around it. Ballet at 10:45 still applies." } },
+  { d:"2026-10-17", title:"Lowe's Workshop: Firefighting Plane", time:"10 AM–1 PM",
+    loc:"Lowe's (nearest store)", fit:"both", ages:"Ages 4–11 · fits BOTH girls", cat:"house", color:"c-red",
+    reg:{ label:"Register when it opens (~2 wks ahead)", url:"https://www.lowes.com/events", hot:true },
+    note:{ kind:"good", text:"Both girls again — come after Tatum's 10:45 ballet; window runs to 1." } },
+  { d:"2026-10-17", title:"ZooBoo — daytime trick-or-treat at the Zoo", time:"10 AM–3 PM",
+    loc:"Pittsburgh Zoo & Aquarium", fit:"both", ages:"All ages · costumes welcome", cat:"flag", color:"c-orange", paid:true,
+    reg:{ label:"Included with admission — confirm exact days", url:"https://www.pittsburghzoo.org/event/zooboo/" },
+    note:{ kind:"warn", text:"Runs the last two weekends of October — the zoo hasn't posted exact 2026 days yet, so double-check before going." } },
+  { d:"2026-10-24", title:"ZooBoo — weekend two", time:"10 AM–3 PM",
+    loc:"Pittsburgh Zoo & Aquarium", fit:"both", ages:"All ages · costumes welcome", cat:"flag", color:"c-orange", paid:true,
+    reg:{ label:"Included with admission — confirm exact days", url:"https://www.pittsburghzoo.org/event/zooboo/" },
+    note:{ kind:"good", text:"Trick-or-treat stations, costume parade and dance. Wear the Halloween costumes early!" } },
+  /* ---- November ---- */
+  { d:"2026-11-07", title:"Home Depot Workshop: Dump Truck", time:"9 AM–12 PM",
+    loc:"Home Depot (East Liberty)", fit:"both", ages:"Ages 5–12 · Tatum with a hand", cat:"hammer", color:"c-orange",
+    reg:{ label:"Registration opens ~Oct 1", url:"https://www.homedepot.com/workshops/" },
+    note:{ kind:"good", text:"Wide 3-hour window — work around swim (if started) and Tatum's ballet." } },
+  { d:"2026-11-14", title:"Lowe's Workshop: Holiday Engine", time:"10 AM–1 PM",
+    loc:"Lowe's (nearest store)", fit:"both", ages:"Ages 4–11 · fits BOTH girls", cat:"house", color:"c-red",
+    reg:{ label:"Register when it opens (~2 wks ahead)", url:"https://www.lowes.com/events", hot:true },
+    note:{ kind:"good", text:"Holiday train build for both girls — the after-ballet arrival works again." } },
+  { d:"2026-11-20", title:"Light Up Night — holiday season kickoff", time:"Evening · Downtown",
+    loc:"Downtown Pittsburgh", fit:"both", ages:"All ages", cat:"flag", color:"c-deep",
+    reg:{ label:"Traditionally Fri before Thanksgiving — confirm", url:"https://downtownpittsburgh.com/events/" },
+    note:{ kind:"good", text:"Tree lightings, Santa, fireworks, and the Peoples Gas Holiday Market opens. Date is the traditional slot — watch for official confirmation." } },
+  { d:"2026-11-21", title:"Home Depot Workshop: Christmas Car", time:"9 AM–12 PM",
+    loc:"Home Depot (East Liberty)", fit:"both", ages:"Ages 5–12 · Tatum with a hand", cat:"hammer", color:"c-orange",
+    reg:{ label:"Registration opens ~Nov 1", url:"https://www.homedepot.com/workshops/" },
+    note:{ kind:"good", text:"Bonus second workshop this month — same wide-window juggle around Saturday activities." } },
+];
+
+const ONGOING = [
+  { title:"Children's Museum: Gabby's Dollhouse + Eric Carle exhibits", loc:"North Side · daily", fit:"both", cat:"house", color:"c-pink", paid:true,
+    reg:{ label:"Hours & tickets", url:"https://pittsburghkids.org/" },
+    note:{ kind:"good", text:"Voted #1 children's museum in America this year — the Gabby exhibit is perfect for both girls." } },
+  { title:"Pittsburgh Renaissance Festival", loc:"West Newton · weekends thru Oct 4, 10:30–6:30", fit:"both", cat:"flag", color:"c-deep", paid:true,
+    reg:{ label:"Kids 5–12 $12, under 5 free", url:"https://www.pittsburghrenfest.com/information/" },
+    note:{ kind:"good", text:"Jousting, costumed performers, medieval rides and games." } },
+  { title:"Soergel's Fall Festival — opening soon", loc:"Wexford · weekends from mid-Sept thru Oct", fit:"both", cat:"flag", color:"c-orange",
+    reg:{ label:"Watch for 2026 dates", url:"https://soergels.com/fall-update/" },
+    note:{ kind:"good", text:"Free entry; hayrides, petting zoo, Tiny Town, apple picking. 2026 dates not posted yet — usually starts mid-September." } },
+  { title:"Phipps Fall Flower Show + pumpkin patch", loc:"Phipps Conservatory, Oakland · October", fit:"both", cat:"flag", color:"c-pink", paid:true,
+    reg:{ label:"Hours & tickets", url:"https://www.phipps.conservatory.org/" },
+    note:{ kind:"good", text:"Mums, pumpkins and garden walks — easy weekday-afternoon outing close to home." } },
+  { title:"Holiday Market + Fred Rogers courtyard at Heinz Hall", loc:"Downtown · from Light Up Night", fit:"both", cat:"flag", color:"c-deep",
+    reg:{ label:"Downtown holiday guide", url:"https://www.visitpittsburgh.com/events-festivals/holidays/" },
+    note:{ kind:"good", text:"Santa's chalet, the skating rink at PPG Place, and a Daniel Tiger / Mister Rogers character courtyard — free to wander." } },
+  { title:"Zoo Wild Illuminations + Dazzling Nights", loc:"Zoo · Botanic Garden · late Nov onward", fit:"both", cat:"flag", color:"c-blue", paid:true,
+    reg:{ label:"Lantern & light-show tickets", url:"https://www.pittsburghzoo.org/" },
+    note:{ kind:"good", text:"Two big holiday light experiences — evening outings that work for both girls." } },
+];
+
+const MOVIES = [
+  { m:"Sep", n:"9",  title:"Tom and Jerry: Forbidden Compass", meta:"Animated time-travel adventure · theaters" },
+  { m:"Sep", n:"18", title:"Shaun the Sheep: The Beast of Mossy Bottom", meta:"Aardman stop-motion · theaters" },
+  { m:"Sep", n:"25", title:"Forgotten Island", meta:"New animated feature (dir. Joel Crawford) · theaters" },
+  { m:"Oct", n:"23", title:"Wildwood", meta:"LAIKA stop-motion fantasy · theaters" },
+  { m:"Nov", n:"6",  title:"The Cat in the Hat", meta:"Animated Dr. Seuss · theaters — great for both girls" },
+  { m:"Nov", n:"25", title:"Hexed", meta:"Disney Animation's Thanksgiving release · theaters" },
+];
+const SHOWS = [
+  { m:"Sep", n:"2",  title:"Star Wars: The Mandalorian and Grogu", meta:"Disney+ · family movie night, better for Waverly" },
+  { m:"Sep", n:"14", title:"Gabby's Dollhouse: baking competition series", meta:"Netflix · perfect for both girls — pairs with the museum exhibit" },
+  { m:"Sep", n:"—",  title:"Sofia the First: Royal Magic", meta:"Disney Jr. · new series this month" },
+  { m:"Sep", n:"—",  title:"Hey A.J.!", meta:"Disney Jr. · new preschool series" },
+  { m:"Sep", n:"—",  title:"Mark Rober's CrunchLabs — Season 5", meta:"Netflix · fun science builds for Waverly" },
+  { m:"Nov", n:"—",  title:"Steps", meta:"Netflix · new family film this November" },
+];
+
+/* School days off — Shady Side Academy JS (from Dina's 2026–27 schedule) */
+const DAYS_OFF = {
+  "2026-09-07":"Labor Day — no school",
+  "2026-09-21":"Yom Kippur — no school",
+  "2026-10-19":"Evaluation day — confirm if JS is off",
+  "2026-11-02":"Conferences — no school",
+  "2026-11-23":"Faculty work day — no school",
+  "2026-11-24":"Thanksgiving break","2026-11-25":"Thanksgiving break",
+  "2026-11-26":"Thanksgiving","2026-11-27":"Thanksgiving break",
+};
+
+const FIT_BADGE = {
+  both:'<span class="badge b-both">Both girls</span>',
+  waverly:'<span class="badge b-waverly">Waverly</span>',
+  tatum:'<span class="badge b-tatum">Tatum</span>',
+};
+const icon = id => `<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#${id}"/></svg>`;
+const todayStr = (() => { const t=new Date(); t.setHours(0,0,0,0); return t.toISOString().slice(0,10); })();
+const fmtDay = d => new Date(d+"T12:00:00").toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"});
+const isWeekend = d => { const g=new Date(d+"T12:00:00").getDay(); return g===0||g===6; };
+
+function cardHTML(ev, past){
+  return `<div class="card${past?" past":""}">
+    <div class="cat-ic ${ev.color}">${icon("i-"+ev.cat)}</div>
+    <div class="body">
+      <div class="row1"><span class="title">${ev.title}</span>${ev.time?`<span class="time">${ev.time}</span>`:""}</div>
+      <div class="meta">${icon("i-pin")} ${ev.loc}${ev.ages?" · "+ev.ages:""}</div>
+      <div class="badges">${FIT_BADGE[ev.fit]}${ev.paid?'<span class="badge b-paid">PAID</span>':'<span class="badge b-free">FREE</span>'}</div>
+      <div class="reg${ev.reg.hot?" hot":""}">${icon(ev.reg.hot?"i-spark":"i-ticket")} <a href="${ev.reg.url}" target="_blank" rel="noopener">${ev.reg.label}</a></div>
+      ${ev.note?`<div class="note ${ev.note.kind}">${icon(ev.note.kind==="warn"?"i-warn":"i-check")} <span>${ev.note.text}</span></div>`:""}
+    </div></div>`;
+}
+
+/* ---------- calendar ---------- */
+EVENTS.sort((a,b) => a.d.localeCompare(b.d));
+const byDate = {};
+EVENTS.forEach(ev => (byDate[ev.d] = byDate[ev.d] || []).push(ev));
+let selected = byDate[todayStr] ? todayStr : null;
+if (!selected) { selected = Object.keys(byDate).sort().find(d => d >= todayStr) || "2026-09-12"; }
+
+const MONTHS = [ {y:2026,m:8}, {y:2026,m:9}, {y:2026,m:10} ]; // Sep, Oct, Nov (0-indexed)
+let monthIdx = (() => {
+  const t = new Date();
+  const i = MONTHS.findIndex(mo => mo.y===t.getFullYear() && mo.m===t.getMonth());
+  return i >= 0 ? i : 0;
+})();
+const MONTH_NAMES = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const iso = (y,m,d) => `${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+
+function buildCalendar(){
+  const {y, m} = MONTHS[monthIdx];
+  document.getElementById("calTitle").textContent = `${MONTH_NAMES[m]} ${y}`;
+  document.getElementById("prevM").disabled = monthIdx === 0;
+  document.getElementById("nextM").disabled = monthIdx === MONTHS.length - 1;
+
+  const grid = document.getElementById("calGrid");
+  let html = ["M","T","W","T","F","S","S"].map(d=>`<div class="dow">${d}</div>`).join("");
+  const first = new Date(y, m, 1);
+  const lead = (first.getDay() + 6) % 7;               // Monday-start offset
+  const daysIn = new Date(y, m+1, 0).getDate();
+  const cells = [];
+  for (let i = lead; i > 0; i--){                       // leading days from prev month
+    const dt = new Date(y, m, 1 - i);
+    cells.push({ d: iso(dt.getFullYear(), dt.getMonth(), dt.getDate()), n: dt.getDate(), other:true });
+  }
+  for (let i = 1; i <= daysIn; i++) cells.push({ d: iso(y,m,i), n:i });
+  const trail = (7 - cells.length % 7) % 7;
+  for (let i = 1; i <= trail; i++){                     // trailing days from next month
+    const dt = new Date(y, m+1, i);
+    cells.push({ d: iso(dt.getFullYear(), dt.getMonth(), dt.getDate()), n: dt.getDate(), other:true });
+  }
+  cells.forEach(c => {
+    const evs = byDate[c.d] || [];
+    const off = !c.other && DAYS_OFF[c.d];
+    const has = (evs.length > 0 || off) && !c.other;
+    const fits = [...new Set(evs.map(e=>e.fit))].slice(0,3);
+    const cls = ["cell", c.other?"other":"", has?"has":"", off?"off":"", c.d===selected&&has?"sel":"", c.d===todayStr?"today":""].filter(Boolean).join(" ");
+    html += `<button class="${cls}" ${has?`data-d="${c.d}"`:"disabled"}>
+      <span>${c.n}</span><span class="dots">${fits.map(f=>`<i class="dot ${f}"></i>`).join("")}</span></button>`;
+  });
+  grid.innerHTML = html;
+}
+document.getElementById("prevM").addEventListener("click", () => { if (monthIdx>0){ monthIdx--; buildCalendar(); } });
+document.getElementById("nextM").addEventListener("click", () => { if (monthIdx<MONTHS.length-1){ monthIdx++; buildCalendar(); } });
+function renderDayDetail(){
+  const box = document.getElementById("dayDetail");
+  const evs = byDate[selected] || [];
+  const off = DAYS_OFF[selected];
+  const offBanner = off ? `<div class="off-banner">${icon("i-spark")} <span><b>${off}</b> — both girls free all day, so daytime events and museums are in play.</span></div>` : "";
+  const empty = (!evs.length && off) ? `<div class="off-banner">${icon("i-check")} <span>Nothing booked yet — good day for the Children's Museum, Phipps, or library storytime.</span></div>` : "";
+  box.innerHTML = `<div class="day"><h2>${fmtDay(selected)}${selected===todayStr?' <span class="today-pill">Today</span>':''}</h2>
+    ${offBanner}${evs.map(ev=>cardHTML(ev, selected<todayStr)).join("")}${empty}</div>`;
+}
+document.getElementById("calGrid").addEventListener("click", e => {
+  const btn = e.target.closest(".cell.has"); if (!btn) return;
+  selected = btn.dataset.d;
+  buildCalendar(); renderDayDetail();
+});
+
+/* ---------- list view ---------- */
+function renderList(filter){
+  const container = document.getElementById("events");
+  container.innerHTML = "";
+  let currentDay=null, dayDiv=null, shown=0;
+  EVENTS.forEach(ev => {
+    if (filter==="weekend" && !isWeekend(ev.d)) return;
+    if ((filter==="waverly"||filter==="tatum"||filter==="both") && ev.fit!==filter && ev.fit!=="both") return;
+    if (filter==="tatum" && ev.fit==="waverly") return;
+    if (filter==="waverly" && ev.fit==="tatum") return;
+    const label = fmtDay(ev.d);
+    if (label !== currentDay){
+      currentDay = label;
+      dayDiv = document.createElement("div");
+      dayDiv.className = "day";
+      dayDiv.innerHTML = `<h2>${label}${ev.d===todayStr?' <span class="today-pill">Today</span>':''}</h2>`;
+      container.appendChild(dayDiv);
+    }
+    dayDiv.insertAdjacentHTML("beforeend", cardHTML(ev, ev.d<todayStr));
+    shown++;
+  });
+  if (!shown) container.innerHTML = '<p style="color:rgba(255,255,255,.8);margin-top:20px;font-weight:600">No events match this filter.</p>';
+}
+document.getElementById("filters").addEventListener("click", e => {
+  const btn = e.target.closest(".chip"); if (!btn) return;
+  document.querySelectorAll(".chip").forEach(c=>c.classList.remove("active"));
+  btn.classList.add("active");
+  renderList(btn.dataset.f);
+});
+
+/* ---------- ongoing + coming soon ---------- */
+document.getElementById("ongoing").innerHTML = ONGOING.map(ev=>cardHTML(ev,false)).join("");
+const csCard = it => `<div class="cs-card">
+  <div class="cs-date"><div class="m">${it.m}</div><div class="n">${it.n}</div></div>
+  <div class="cs-body"><div class="cs-title">${it.title}</div><div class="cs-meta">${it.meta}</div></div></div>`;
+document.getElementById("csMovies").innerHTML = MOVIES.map(csCard).join("");
+document.getElementById("csShows").innerHTML = SHOWS.map(csCard).join("");
+
+/* ---------- tabs ---------- */
+document.getElementById("tabs").addEventListener("click", e => {
+  const btn = e.target.closest(".tab"); if (!btn) return;
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  document.querySelectorAll(".pane").forEach(p=>p.classList.remove("active"));
+  btn.classList.add("active");
+  document.getElementById("pane-"+btn.dataset.t).classList.add("active");
+});
+
+buildCalendar(); renderDayDetail(); renderList("all");
+</script>
+</body>
+</html>
