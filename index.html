@@ -314,13 +314,25 @@
 
   <footer>
     <p><span class="ldot" style="background:var(--pink-hot)"></span> Tatum &nbsp;·&nbsp; <span class="ldot" style="background:#8fa0ff"></span> Waverly &nbsp;·&nbsp; <span class="ldot" style="background:var(--red)"></span> both girls. Notes flag conflicts with the fall schedule: Mon Irish dance 6 PM (W) · Tue dance 5–6 both · Wed tutoring 6 PM (W) · Thu dance 5–6 (W) · Fri Ninja Khana 4:15 both · Sat tennis 9–10 (thru Sep 26, then swim) + Tatum ballet 10:45 · Sun art with Mom 10 AM + chess 1 PM (W). Yellow calendar days = no school (Dina full days).</p>
-    <p>Apple Kids sessions are ages 6–10; a parent or caregiver stays the full hour. Apple only publishes ~2 weeks ahead (currently through Sep 20), so later sessions appear here as they drop. Ross Park Mall / Nordstrom have no scheduled kids events — Nordstrom's Kids Zone is everyday drop-in. Halloween deep-cut list: <a href="https://www.kidsburgh.org/60-not-so-spooky-halloween-events-for-fun-loving-kids-in-the-pittsburgh-area/" target="_blank" rel="noopener">Kidsburgh's 60+ not-so-spooky events</a>.</p>
+    <p>Apple Kids sessions are ages 6–10; a parent or caregiver stays the full hour. Apple only publishes ~2 weeks ahead and their calendar could not be read on the Sep 15 sweep, so sessions past Sep 20 are not listed yet — check the store pages directly if you want a weekend slot. Oct 19 is an Upper Schools evaluation day only: the Junior School is IN session, so it is no longer marked as a day off. Ross Park Mall / Nordstrom have no scheduled kids events — Nordstrom's Kids Zone is everyday drop-in. Halloween deep-cut list: <a href="https://www.kidsburgh.org/60-not-so-spooky-halloween-events-for-fun-loving-kids-in-the-pittsburgh-area/" target="_blank" rel="noopener">Kidsburgh's 60+ not-so-spooky events</a>.</p>
     <p>Rainy-day extra for Tatum: CLP Squirrel Hill "Preschool Pals" storytime (ages 3–5), weekday mornings ~11 AM, best on school days off. <a href="https://www.carnegielibrary.org/events/category/storytimes/" target="_blank" rel="noopener">Schedule</a></p>
   </footer>
 </div>
 
 <script>
 const EVENTS = [
+  { d:"2026-09-24", title:"A Landing Ovation — free ballet, opera & musical theatre preview", time:"6:00–7:30 PM",
+    loc:"Arts Landing, Downtown (~15 min)", fit:"tatum", ages:"All ages · food trucks on site", cat:"flag", color:"c-pink",
+    reg:{ label:"Free — register for a ticket prize draw", url:"https://trustarts.org/event/32169-2026/a-landing-ovation" },
+    note:{ kind:"warn", text:"Pittsburgh Ballet Theatre performs — a treat for Tatum after starting Pre-Ballet. Waverly has dance in Allison Park 5–6, so she can't make a 6 PM downtown curtain. Rain date is Fri Sep 25, same time, which clears Ninja Khana by 5." } },
+  { d:"2026-09-26", title:"Free Kid September — kids ride free at the PA Trolley Museum", time:"10 AM–4 PM",
+    loc:"PA Trolley Museum, Washington PA (~35 min)", fit:"both", ages:"Ages 0–17 free · adults pay", cat:"flag", color:"c-blue",
+    reg:{ label:"Free for kids through Sep 30 — last two weekends", url:"https://pa-trolley.org/", hot:true },
+    note:{ kind:"good", text:"4-mile antique trolley ride, hands-on exhibits and a playground to picnic at. Thu–Sun only, so Sep 26 or 27 are the last chances — go after ballet wraps at 11:30 and you have the whole afternoon." } },
+  { d:"2026-11-19", title:"DRUMLine Live Holiday Spectacular", time:"Evening · Benedum Center",
+    loc:"Benedum Center, Downtown", fit:"waverly", ages:"All ages", cat:"flag", color:"c-deep", paid:true,
+    reg:{ label:"Tickets", url:"https://trustarts.org/production/108019/drumline-live-holiday-spectacular" },
+    note:{ kind:"warn", text:"Loud, high-energy HBCU marching-band show — great for Waverly, probably too much for Tatum. Thursday night, so it collides with Waverly's 5–6 dance unless you skip one." } },
   { d:"2026-09-01", title:"Apple Kids: Create Comics Inspired by Planet Earth", time:"3:00–4:00 PM",
     loc:"Apple Ross Park (~25 min)", fit:"waverly", cat:"tablet", color:"c-blue",
     reg:{ label:"Book a free spot", url:"https://www.apple.com/today/calendar/rosspark/" },
@@ -448,12 +460,12 @@ const EVENTS = [
   /* ---- October ---- */
   { d:"2026-10-03", title:"Home Depot Workshop: Witch Candy Box", time:"9 AM–12 PM",
     loc:"Home Depot (East Liberty)", fit:"both", ages:"Ages 5–12 · Tatum with a hand", cat:"hammer", color:"c-orange",
-    reg:{ label:"Registration opens Sep 5", url:"https://www.homedepot.com/workshops/" },
-    note:{ kind:"good", text:"Tennis is done by October; if Goldfish swim has started in the 9–10 slot, use the wide window around it. Ballet at 10:45 still applies." } },
+    reg:{ label:"Registration is OPEN — reserve a kit now", url:"https://www.homedepot.com/workshops/", hot:true },
+    note:{ kind:"good", text:"Confirmed for Oct 3, 9 AM–12. Tennis is done by October; if Goldfish swim has started in the 9–10 slot, use the wide window around it. Ballet at 10:45 still applies." } },
   { d:"2026-10-17", title:"Lowe's Workshop: Firefighting Plane", time:"10 AM–1 PM",
     loc:"Lowe's (nearest store)", fit:"both", ages:"Ages 4–11 · fits BOTH girls", cat:"house", color:"c-red",
-    reg:{ label:"Registration opens Sep 12 — confirm the date when you book", url:"https://www.lowes.com/events", hot:true },
-    note:{ kind:"warn", text:"Date is unsettled: Lowe's published schedule (KCL, Mama Deals) says Oct 17; an earlier sweep saw Oct 10. Registration on Sep 12 will show the real date. Oct 17 is also SSA Homecoming + ZooBoo — busy day." } },
+    reg:{ label:"Registration is OPEN — book a free spot", url:"https://www.lowes.com/diy-projects-and-ideas/workshops", hot:true },
+    note:{ kind:"warn", text:"Oct 17 now confirmed — registration opened Sep 12, so the earlier Oct 10 sighting was wrong. This is the one monthly workshop that fits Tatum too (ages 4–11), so book both girls early. Heads up: Oct 17 is also SSA Homecoming and ZooBoo." } },
   { d:"2026-10-17", title:"ZooBoo — daytime trick-or-treat at the Zoo", time:"10 AM–3 PM",
     loc:"Pittsburgh Zoo & Aquarium", fit:"both", ages:"All ages · costumes welcome", cat:"flag", color:"c-orange", paid:true,
     reg:{ label:"Included with admission", url:"https://www.pittsburghzoo.org/event/zooboo/" },
@@ -553,8 +565,12 @@ const MOVIES = [
   { m:"Sep", n:"9",  title:"Tom and Jerry: Forbidden Compass", meta:"Animated time-travel adventure · theaters" },
   { m:"Sep", n:"18", title:"Shaun the Sheep: The Beast of Mossy Bottom", meta:"Aardman stop-motion · theaters" },
   { m:"Sep", n:"25", title:"Forgotten Island", meta:"New animated feature (dir. Joel Crawford) · theaters" },
+  { m:"Oct", n:"1",  title:"The Nightmare Before Christmas (re-release)", meta:"Returns to theaters for Halloween · Waverly-sized spooky, likely too much for Tatum" },
+  { m:"Oct", n:"9",  title:"Treasure Trekkers", meta:"New animated adventure · theaters" },
+  { m:"Oct", n:"9",  title:"Monster Mia", meta:"Animated, friendly-monster story · theaters" },
   { m:"Oct", n:"23", title:"Wildwood", meta:"LAIKA stop-motion fantasy · theaters" },
   { m:"Nov", n:"6",  title:"The Cat in the Hat", meta:"Animated Dr. Seuss · theaters — great for both girls" },
+  { m:"Nov", n:"16", title:"Carnival of the Animals", meta:"Animated musical feature · theaters" },
   { m:"Nov", n:"25", title:"Hexed", meta:"Disney Animation's Thanksgiving release · theaters" },
 ];
 const SHOWS = [
@@ -570,11 +586,15 @@ const SHOWS = [
 const DAYS_OFF = {
   "2026-09-07":"Labor Day — no school",
   "2026-09-21":"Yom Kippur — no school",
-  "2026-10-19":"Upper Schools evaluation day — JS likely IN session (SSA calendar lists it for Upper Schools only; confirm)",
   "2026-11-02":"Conferences — no school",
   "2026-11-23":"Faculty work day — no school",
   "2026-11-24":"Thanksgiving break","2026-11-25":"Thanksgiving break",
   "2026-11-26":"Thanksgiving","2026-11-27":"Thanksgiving break",
+  "2026-12-11":"Lower Schools evaluation day — no school for the girls",
+  "2026-12-18":"Classes end — half day",
+  "2026-12-21":"Winter break","2026-12-22":"Winter break","2026-12-23":"Winter break",
+  "2026-12-24":"Winter break","2026-12-25":"Christmas","2026-12-28":"Winter break",
+  "2026-12-29":"Winter break","2026-12-30":"Winter break","2026-12-31":"Winter break",
 };
 
 /* ---------- enrolled activities (toggle) ---------- */
