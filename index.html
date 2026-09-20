@@ -265,7 +265,7 @@
     <svg class="spark" viewBox="0 0 24 24" width="32" height="32"><use href="#i-spark"/></svg>
     <div>
       <span class="tag">Book this week</span>
-      <p><strong>Lowe's Haunted House is THIS Saturday (Sep 12, 10–1, both girls)</strong> — <a href="https://www.lowes.com/events" target="_blank" rel="noopener">register free</a> if you haven't; leftover kits go out after 1. <strong>Home Depot Oct 3 Witch Candy Box</strong> registration is open — <a href="https://www.homedepot.com/workshops/" target="_blank" rel="noopener">reserve kits</a>. Lowe's October plane build opens for registration <strong>Sat Sep 12</strong> (the date shown there settles Oct 10 vs 17). Apple posted <strong>Sun Sep 20, 4 PM</strong> for Waverly — <a href="https://www.apple.com/today/calendar/shadyside/" target="_blank" rel="noopener">book</a>. Zoo members: Jack O'Lantern tickets are $4 off through Sep 30. Girls are <strong>off school Mon Sep 21</strong> — Soergel's weekday pumpkin patch opens that day.</p>
+      <p>Girls are <strong>off school TOMORROW, Mon Sep 21</strong> (Yom Kippur) and the day is wide open — Soergel's weekday pumpkin patch opens that day, 12–5. <strong>Apple just posted Wed Sep 30, 4:30–5:30 PM at Shadyside</strong> ("Make a Theme Song", Waverly) — <a href="https://www.apple.com/today/calendar/shadyside/" target="_blank" rel="noopener">book it</a>: five minutes away and done well before tutoring at 6. <strong>Home Depot Oct 3 Witch Candy Box</strong> registration is open — <a href="https://www.homedepot.com/workshops/" target="_blank" rel="noopener">reserve kits</a>. <strong>Lowe's Oct 17 Firefighting Plane</strong> (ages 4–11, both girls) is open now too — <a href="https://www.lowes.com/events" target="_blank" rel="noopener">register early</a>; Oct 17 is a three-way Saturday with SSA Homecoming and Punkin Chunkin. Zoo members: Jack O'Lantern tickets are $4 off through Sep 30. And the Children's Museum's new <strong>Mister Rogers / Daniel Tiger exhibit opens Oct 3–4</strong>.</p>
     </div>
   </div>
 
@@ -314,13 +314,61 @@
 
   <footer>
     <p><span class="ldot" style="background:var(--pink-hot)"></span> Tatum &nbsp;·&nbsp; <span class="ldot" style="background:#8fa0ff"></span> Waverly &nbsp;·&nbsp; <span class="ldot" style="background:var(--red)"></span> both girls. Notes flag conflicts with the fall schedule: Mon Irish dance 6 PM (W) · Tue dance 5–6 both · Wed tutoring 6 PM (W) · Thu dance 5–6 (W) · Fri Ninja Khana 4:15 both · Sat tennis 9–10 (thru Sep 26, then swim) + Tatum ballet 10:45 · Sun art with Mom 10 AM + chess 1 PM (W). Yellow calendar days = no school (Dina full days).</p>
-    <p>Apple Kids sessions are ages 6–10; a parent or caregiver stays the full hour. Apple only publishes ~2 weeks ahead — swept Sep 16, listings now run through Sep 29. Sessions on school-day afternoons (Sep 17 Ross Park 2 PM, Sep 28 Ross Park noon) are left off because Waverly is in class. Oct 19 is an Upper Schools evaluation day only: the Junior School is IN session, so it is no longer marked as a day off. Ross Park Mall / Nordstrom have no scheduled kids events — Nordstrom's Kids Zone is everyday drop-in. Halloween deep-cut list: <a href="https://www.kidsburgh.org/60-not-so-spooky-halloween-events-for-fun-loving-kids-in-the-pittsburgh-area/" target="_blank" rel="noopener">Kidsburgh's 60+ not-so-spooky events</a>.</p>
+    <p>Apple Kids sessions are ages 6–10; a parent or caregiver stays the full hour. Apple only publishes ~2 weeks ahead — swept Sep 20, listings now run through Oct 3 and the date strip stops there. Sessions on school-day afternoons (Sep 28 Ross Park noon, Oct 1 Ross Park noon and 2 PM, Oct 2 Ross Park 3:30) are left off because Waverly is in class and Ross Park is a 25-minute drive. Oct 19 is an Upper Schools evaluation day only: the Junior School is IN session, so it is no longer marked as a day off. Ross Park Mall / Nordstrom have no scheduled kids events — Nordstrom's Kids Zone is everyday drop-in. Halloween deep-cut list: <a href="https://www.kidsburgh.org/60-not-so-spooky-halloween-events-for-fun-loving-kids-in-the-pittsburgh-area/" target="_blank" rel="noopener">Kidsburgh's 60+ not-so-spooky events</a>.</p>
     <p>Rainy-day extra for Tatum: CLP Squirrel Hill "Preschool Pals" storytime (ages 3–5), weekday mornings ~11 AM, best on school days off. <a href="https://www.carnegielibrary.org/events/category/storytimes/" target="_blank" rel="noopener">Schedule</a></p>
   </footer>
 </div>
 
 <script>
 const EVENTS = [
+  { d:"2026-09-30", title:"Apple Kids: Make a Theme Song", time:"4:30–5:30 PM",
+    loc:"Apple Shadyside (~5 min)", fit:"waverly", cat:"tablet", color:"c-blue",
+    reg:{ label:"Book a free spot", url:"https://www.apple.com/today/calendar/shadyside/", hot:true },
+    note:{ kind:"good", text:"Newly posted and the best Apple slot on the board — Shadyside is five minutes away, so she is home long before Wednesday tutoring at 6. Ross Park runs a Video on iPhone workshop the same afternoon but no Kids session." } },
+  { d:"2026-09-26", title:"Discovery Time: Playful Plants", time:"Morning drop-in",
+    loc:"Frick Environmental Center (~5 min)", fit:"both", ages:"Free · sensory bins, seed balls, felt meadow", cat:"flag", color:"c-pink",
+    reg:{ label:"Free — register", url:"https://pittsburghparks.org/event/discovery-time-playful-plants-frick-environmental-center/" },
+    note:{ kind:"warn", text:"Closest thing on the board to a backyard outing, but Saturday the 26th is already packed — tennis at 9, ballet 10:45, the last Free Kid trolley day, and Apple at 5. Treat it as the fallback if the trolley drive feels like too much." } },
+  { d:"2026-10-04", title:"Children's Museum: “It's a Beautiful Day to Be You” opens", time:"Opening weekend Oct 3–4",
+    loc:"Children's Museum, North Side (~12 min)", fit:"both", ages:"New permanent exhibit · with admission", cat:"house", color:"c-pink", paid:true,
+    reg:{ label:"Exhibit details", url:"https://pittsburghkids.org/exhibit/beautifulday/", hot:true },
+    note:{ kind:"good", text:"Built around Mister Rogers, Daniel Tiger and Donkey Hodie — squarely Tatum's world and still plenty for Waverly. Sunday works better than Saturday: art at home wraps at 11 and chess at 1 is remote, so go either side of it." } },
+  { d:"2026-10-10", title:"International Penguin Day", time:"All day",
+    loc:"National Aviary, North Side (~12 min)", fit:"both", ages:"Penguin feedings, Discovery Zone · with admission", cat:"bird", color:"c-blue", paid:true,
+    reg:{ label:"Hours & admission", url:"https://www.aviary.org/" },
+    note:{ kind:"good", text:"Meet the Penguin Point colony, special feedings and expert talks. Saturday afternoon is clear once ballet ends at 11:30 — an easy one to pair with lunch on the North Side." } },
+  { d:"2026-10-17", title:"Punkin Chunkin at Hartwood Acres", time:"11 AM–4 PM",
+    loc:"Hartwood Acres Amphitheater (~25 min)", fit:"both", ages:"Free · all ages · registration recommended", cat:"flag", color:"c-orange",
+    reg:{ label:"Free — register for supplies", url:"https://anc.apm.activecommunities.com/alleghenyparks/activity/search/detail/22863?onlineSiteId=0&from_original_cui=true" },
+    note:{ kind:"warn", text:"A full-size trebuchet launching pumpkins across the field, plus games. Oct 17 is now triple-booked — Lowe's Firefighting Plane 10–1, SSA Homecoming 11–2:30, and this. Pick two at most; Bark or Treat runs next door noon–2." } },
+  { d:"2026-10-17", title:"Community Campfire, Lower Frick Park", time:"Evening",
+    loc:"Lower Frick Park (~5 min)", fit:"both", ages:"$5 ages 4+ · pumpkin painting, lawn games, live music", cat:"flag", color:"c-deep", paid:true,
+    reg:{ label:"Register — $5", url:"https://pittsburghparks.org/event/community-campfire-lower-frick-park/" },
+    note:{ kind:"good", text:"Campfire and roasting sticks provided — bring blankets. The gentle way to end a very full Saturday, and it is the closest venue on the whole board." } },
+  { d:"2026-10-18", title:"Children's Harvest Festival", time:"Sunday · see times",
+    loc:"Oliver Miller Homestead, South Park (~25 min)", fit:"both", ages:"$2 · games, crafts, music, giant leaf pile", cat:"flag", color:"c-orange", paid:true,
+    reg:{ label:"Event details — $2", url:"https://olivermillerhomestead.org/special-events/" },
+    note:{ kind:"good", text:"18th-century harvest games and a giant leaf pile for two dollars. Sunday afternoon after art is clear; chess at 1 is remote if you want the whole day." } },
+  { d:"2026-10-18", title:"Ringling Bros. and Barnum & Bailey Circus", time:"Oct 16–18 · matinees available",
+    loc:"PPG Paints Arena, Uptown (~12 min)", fit:"both", ages:"Tickets from $15", cat:"flag", color:"c-deep", paid:true,
+    reg:{ label:"Tickets", url:"https://www.ticketmaster.com/artist/2962779?venueId=180938" },
+    note:{ kind:"warn", text:"Take the Sunday show — Friday has Ninja Khana and Saturday the 17th is already a pile-up. Bright, loud and fast; fine for both girls if Tatum is well-rested." } },
+  { d:"2026-10-24", title:"Campfire Ghost Stories, County Parks", time:"Oct 22–25 · 7–8 PM",
+    loc:"North Park, Boyce, Settlers Cabin, Harrison Hills", fit:"both", ages:"Free · no registration · costumes encouraged", cat:"flag", color:"c-deep",
+    reg:{ label:"Free — pick a park & night", url:"https://www.alleghenycounty.us/Parks-and-Events/Special-Events/Campfire-Ghost-Stories" },
+    note:{ kind:"good", text:"Family-friendly stories and songs round a fire, four parks over four nights — the Thursday or Friday nights work around dance and Ninja Khana. Weather permitting." } },
+  { d:"2026-11-14", title:"Discovery Time: Fun with Senses", time:"Morning drop-in",
+    loc:"Frick Environmental Center (~5 min)", fit:"both", ages:"Free · smell lab, nature textures, kaleidoscopes", cat:"flag", color:"c-pink",
+    reg:{ label:"Free — register", url:"https://pittsburghparks.org/event/discovery-time-fun-with-senses-frick-environmental-center/" },
+    note:{ kind:"warn", text:"Free and five minutes away, but Nov 14 is the busiest Saturday of the month — Fiddlesticks at 11:15 and the Lowe's Holiday Engine build. This is the one to drop if the day gets tight." } },
+  { d:"2026-11-22", title:"“How to Train Your Dragon” in Concert", time:"Nov 20 & 22 · check times",
+    loc:"Heinz Hall, Downtown (~15 min)", fit:"both", ages:"Film on screen + live PSO score · from $43", cat:"film", color:"c-deep", paid:true,
+    reg:{ label:"Tickets", url:"https://pittsburghsymphony.org/production/107628/how-to-train-your-dragon" },
+    note:{ kind:"good", text:"Take the Sunday date — Nov 20 is a Friday with Ninja Khana. A gentler orchestra outing than DRUMLine and it works for both girls." } },
+  { d:"2026-11-25", title:"Dr. Seuss's How the Grinch Stole Christmas! The Musical", time:"Nov 24–29 · matinees",
+    loc:"Benedum Center, Downtown (~15 min)", fit:"both", ages:"From $43 · best show of the break", cat:"flag", color:"c-deep", paid:true,
+    reg:{ label:"Tickets", url:"https://trustarts.org/production/105581/dr-seuss-how-the-grinch-stole-christmas-the-musical", hot:true },
+    note:{ kind:"good", text:"Lands right inside Thanksgiving break, when both girls are off Nov 23–27 and there is nothing else on the schedule. Whoville sets and costumes drawn from the original illustrations — the pick of the holiday shows for this age." } },
   { d:"2026-09-26", title:"Apple Kids: Code Your First App", time:"5:00–6:00 PM",
     loc:"Apple Shadyside (~5 min)", fit:"waverly", cat:"tablet", color:"c-blue",
     reg:{ label:"Book a free spot", url:"https://www.apple.com/today/calendar/shadyside/", hot:true },
@@ -495,9 +543,9 @@ const EVENTS = [
     reg:{ label:"No registration", url:"https://soergels.com/fall-update/" },
     note:{ kind:"warn", text:"Ninja Khana ends at 5 in Point Breeze — you'd arrive ~5:40, leaving about an hour. Doable but tight." } },
   { d:"2026-10-03", title:"Oktoberfest Pittsburgh — free, all ages", time:"Oct 1–11 · Downtown",
-    loc:"Fort Duquesne Blvd, Downtown", fit:"both", ages:"Karneval games, oompah bands", cat:"flag", color:"c-deep",
-    reg:{ label:"Free — schedule", url:"https://www.oktpgh.com/" },
-    note:{ kind:"good", text:"Kid-friendly Karneval games and music by day. Pair with the Home Depot build that morning." } },
+    loc:"Fort Duquesne Blvd + Clemente Bridge, Downtown", fit:"both", ages:"Kinderplay zone, Karneval games, oompah bands", cat:"flag", color:"c-deep",
+    reg:{ label:"Free admission — full schedule", url:"https://downtownpittsburgh.com/oktpgh/" },
+    note:{ kind:"good", text:"Third year, and the lineup is now confirmed: a 60-foot Ferris wheel on the closed Clemente Bridge ($7 a ride), wiener dog races, Karneval games and a Kinderplay zone. Admission is free — pair it with the Home Depot build that morning." } },
   { d:"2026-10-10", title:"Phipps Fall Flower Show: Alice's Adventures in Autumn opens", time:"Oct 10–Nov 1 · daily",
     loc:"Phipps Conservatory, Oakland", fit:"both", ages:"Included with admission", cat:"flag", color:"c-pink", paid:true,
     reg:{ label:"Hours & tickets", url:"https://www.phipps.conservatory.org/" },
@@ -550,6 +598,12 @@ const EVENTS = [
 ];
 
 const ONGOING = [
+  { title:"Kamin Science Center: jack-o'-lantern hunt + Laser Family Halloween", loc:"North Shore · Sep 26–Oct 31 / Oct 5–31", fit:"both", cat:"flag", color:"c-blue", paid:true,
+    reg:{ label:"Hunt with admission · laser show $7", url:"https://kaminsciencecenter.org/planetarium/laser-shows/" },
+    note:{ kind:"good", text:"Miniature jack-o'-lanterns hidden through the Miniature Railroad & Village — a scavenger hunt both girls can do at their own pace. The Monster Mash laser show is a good rainy-Saturday add-on; skip the Stranger Things one." } },
+  { title:"Point Park Fall Fest + “Boo's Halloween House Party”", loc:"Downtown · Oct 23–Nov 1", fit:"both", cat:"flag", color:"c-deep",
+    reg:{ label:"Street festival free · musical from $23", url:"https://playhouse.pointpark.edu/shows-events/community-events/Fall-Fest" },
+    note:{ kind:"good", text:"Free street festival with pumpkin painting, games and food, wrapped around a family Halloween musical at the Playhouse. Do the festival free and decide on the show once you see the running time." } },
   { title:"Children's Museum: Gabby's Dollhouse + Eric Carle exhibits", loc:"North Side · daily", fit:"both", cat:"house", color:"c-pink", paid:true,
     reg:{ label:"Hours & tickets", url:"https://pittsburghkids.org/" },
     note:{ kind:"good", text:"Voted #1 children's museum in America this year — the Gabby exhibit is perfect for both girls." } },
@@ -584,6 +638,7 @@ const MOVIES = [
   { m:"Nov", n:"6",  title:"The Cat in the Hat", meta:"Animated Dr. Seuss · theaters — great for both girls" },
   { m:"Nov", n:"16", title:"Carnival of the Animals", meta:"Animated musical feature · theaters" },
   { m:"Nov", n:"25", title:"Hexed", meta:"Disney Animation's Thanksgiving release · theaters" },
+  { m:"Nov", n:"25", title:"Flavia de Luce", meta:"Animated mystery · an 11-year-old chemist-detective · better for Waverly" },
 ];
 const SHOWS = [
   { m:"Sep", n:"2",  title:"Star Wars: The Mandalorian and Grogu", meta:"Disney+ · family movie night, better for Waverly" },
